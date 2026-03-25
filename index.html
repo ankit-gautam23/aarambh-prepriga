@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f0a1e">
+  <!-- JS handles the redirect below -->
+  <title>We've moved → Prepriga</title>
+  <link rel="icon" type="image/png" href="assets/prepriga_logo.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #0f0a1e;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated gradient mesh background */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 30%, rgba(79, 70, 229, 0.35) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 80% 70%, rgba(124, 58, 237, 0.3) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 80%);
+      animation: bg-drift 8s ease-in-out infinite alternate;
+    }
+    @keyframes bg-drift {
+      0%   { transform: scale(1) translate(0, 0); }
+      100% { transform: scale(1.08) translate(-2%, 3%); }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    /* Main card */
+    .card {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 56px 48px 48px;
+      max-width: 480px;
+      width: 90%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 24px 80px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      animation: card-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes card-in {
+      0%   { opacity: 0; transform: translateY(40px) scale(0.96); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Logo */
+    .logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      padding: 14px;
+      margin: 0 auto 28px;
+      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.4);
+      animation: logo-glow 2s ease-in-out infinite alternate;
+    }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(10);
+    }
+    @keyframes logo-glow {
+      0%   { box-shadow: 0 8px 32px rgba(79, 70, 229, 0.4); }
+      100% { box-shadow: 0 8px 48px rgba(124, 58, 237, 0.6), 0 0 80px rgba(79, 70, 229, 0.2); }
+    }
+
+    /* Old brand (struck through) */
+    .old-brand {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.3);
+      text-decoration: line-through;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    /* Arrow animation */
+    .rebrand-arrow {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.25);
+      margin-bottom: 8px;
+      animation: arrow-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes arrow-pulse {
+      0%, 100% { opacity: 0.25; transform: translateY(0); }
+      50%      { opacity: 0.6; transform: translateY(-3px); }
+    }
+
+    /* New brand */
+    .new-brand {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, #818cf8 0%, #a78bfa 40%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .tagline {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 32px;
+    }
+
+    .message {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .message strong {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* CTA button */
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      color: #fff;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 24px rgba(79, 70, 229, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .cta:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 40px rgba(79, 70, 229, 0.55);
+    }
+    .cta:hover::before { opacity: 1; }
+    .cta:active { transform: translateY(0) scale(0.98); }
+
+    .cta-arrow {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cta:hover .cta-arrow { transform: translateX(4px); }
+
+    /* Countdown ring */
+    .countdown-wrap {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.8rem;
+    }
+    .ring-svg {
+      width: 28px;
+      height: 28px;
+      transform: rotate(-90deg);
+    }
+    .ring-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 3;
+    }
+    .ring-progress {
+      fill: none;
+      stroke: #7c3aed;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 69.115;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 1s linear;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="particles" id="particles"></div>
+
+  <div class="card">
+    <div class="logo">
+      <img src="assets/prepriga_logo.png" alt="">
+    </div>
+
+    <div class="old-brand">aarambh.pro</div>
+    <div class="rebrand-arrow">↓</div>
+    <div class="new-brand">Prepriga</div>
+    <div class="tagline">Prepare. Rise. Achieve.</div>
+
+    <p class="message">
+      We've rebranded! <strong>Aarambh</strong> is now <strong>Prepriga</strong>.<br>
+      Same mission, elevated experience.
+    </p>
+
+    <a href="https://prepriga.com" class="cta" id="cta-btn" onclick="goToPrepriga(event);">
+      <span>Continue to Prepriga</span>
+      <svg class="cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+
+    <div class="countdown-wrap">
+      <svg class="ring-svg" viewBox="0 0 24 24">
+        <circle class="ring-bg" cx="12" cy="12" r="11"/>
+        <circle class="ring-progress" id="ring" cx="12" cy="12" r="11"/>
+      </svg>
+      <span id="countdown-text">Redirecting in 3s</span>
+    </div>
+  </div>
+
+  <script>
+    var PREPRIGA_URL = 'https://prepriga.com';
+    var LOCAL_FALLBACK = 'index.html';
+
+    function getTarget() {
+      try {
+        if (location.protocol === 'file:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+          return LOCAL_FALLBACK;
+        }
+      } catch (e) {}
+      return PREPRIGA_URL;
+    }
+
+    function goToPrepriga(e) {
+      if (e) e.preventDefault();
+      window.location.href = getTarget();
+    }
+
+    (function () {
+      var ring = document.getElementById('ring');
+      var text = document.getElementById('countdown-text');
+      var total = 69.115;
+      var seconds = 3;
+      var elapsed = 0;
+
+      ring.style.strokeDashoffset = '0';
+
+      var iv = setInterval(function () {
+        elapsed++;
+        var remaining = seconds - elapsed;
+        ring.style.strokeDashoffset = (total * elapsed / seconds).toString();
+        if (remaining > 0) {
+          text.textContent = 'Redirecting in ' + remaining + 's';
+        } else {
+          text.textContent = 'Redirecting\u2026';
+          clearInterval(iv);
+          goToPrepriga();
+        }
+      }, 1000);
+
+      // Particles
+      var container = document.getElementById('particles');
+      for (var i = 0; i < 30; i++) {
+        var p = document.createElement('div');
+        p.className = 'particle';
+        var size = Math.random() * 4 + 2;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (Math.random() * 8 + 6) + 's';
+        p.style.animationDelay = (Math.random() * 8) + 's';
+        container.appendChild(p);
+      }
+    })();
+  </script>
+</body>
+</html>
